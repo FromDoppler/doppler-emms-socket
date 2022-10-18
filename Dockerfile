@@ -26,17 +26,21 @@ WORKDIR /src
 COPY . .
 RUN yarn build
 
-FROM node:16.18.0 AS production-restore
-WORKDIR /src
-COPY package.json yarn.lock ./
-RUN yarn --production --ignore-scripts
+# FROM node:16.18.0 AS production-restore
+# WORKDIR /src
+# COPY package.json yarn.lock ./
+# RUN yarn --production --ignore-scripts
 
 FROM gcr.io/distroless/nodejs:16 as final
 USER nobody
-COPY --chown=nobody --from=production-restore /src/node_modules /app/node_modules
-COPY --chown=nobody --from=build /src/dist /app/dist
+# Potential optimization
+# COPY --chown=nobody --from=production-restore /src/node_modules /app/node_modules
+# COPY --chown=nobody --from=build /src/dist /app/dist
+#
 # COPY --chown=nobody --from=build /src/dist /src/node_modules /app
 # sha256:c1a4dc435233a3222823df518097243c89344dca8d051eff37a31e9b96625113
+#
+COPY --chown=nobody --from=build /src /app
 WORKDIR /app
 EXPOSE 8080
 ARG NODE_ENV=production
