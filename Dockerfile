@@ -3,7 +3,7 @@ WORKDIR /src
 COPY ./*.sh ./
 RUN shellcheck -e SC1091,SC1090 ./*.sh
 
-FROM node:16.18.0 AS restore
+FROM node:18.11.0 AS restore
 WORKDIR /src
 COPY package.json yarn.lock ./
 RUN yarn
@@ -26,7 +26,7 @@ WORKDIR /src
 COPY . .
 RUN yarn build
 
-FROM node:16.18.0 AS production-restore
+FROM node:18.11.0 AS production-restore
 WORKDIR /src
 COPY package.json yarn.lock ./
 RUN yarn --production --ignore-scripts
