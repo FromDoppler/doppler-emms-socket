@@ -44,7 +44,7 @@ pipeline {
         stage('Publish in dopplerdock') {
             environment {
                 DOCKER_CREDENTIALS_ID = "dockerhub_dopplerdock"
-                DOCKER_IMAGE_NAME = "dopplerdock/hello-microservice"
+                DOCKER_IMAGE_NAME = "dopplerdock/emms-socket"
             }
             stages {
                 stage('Publish pre-release images from pull request') {
