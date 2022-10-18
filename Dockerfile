@@ -31,7 +31,7 @@ WORKDIR /src
 COPY package.json yarn.lock ./
 RUN yarn --production --ignore-scripts
 
-FROM gcr.io/distroless/nodejs:16 as final
+FROM gcr.io/distroless/nodejs:18 as final
 USER nobody
 COPY --chown=nobody --from=production-restore /src/node_modules /app/node_modules
 COPY --chown=nobody --from=build /src/dist /app/dist
