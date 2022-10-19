@@ -13,6 +13,8 @@ import { Config } from "./config.js";
 import { Server } from "socket.io";
 
 
+
+
 const nodePath = resolve(process.argv[1]);
 const modulePath = resolve(fileURLToPath(import.meta.url));
 const isCLI = nodePath === modulePath;
@@ -22,9 +24,22 @@ export default function main(port: number = Config.port) {
     request: IncomingMessage,
     response: ServerResponse
   ) => {
+
+
     response.setHeader("content-type", "text/plain;charset=utf8");
     response.writeHead(200, "OK");
-    response.end("TEST Sockets.io");
+    var url = request.url;
+    if (url === '/' && request.method === 'POST') {
+      io.emit('state', "refresh");
+      response.write("POST");
+      response.end();
+    }
+
+    if (url === '/' && request.method === 'GET') {
+      response.write("TEST Sockets.io");
+      response.end();
+    }
+
   };
 
   const server = createServer(requestListener);
@@ -39,15 +54,9 @@ export default function main(port: number = Config.port) {
     cors: { origin: Config.originArrayCors }
   });
 
-
-  io.on("connection", (socket: any) => {
-    console.log('a user connected');
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
-    });
-    // receive a message from the server
-    socket.on("state", (args: string) => {
-      io.emit("state", args);
+  io.on('connection', function (socket) {
+    socket.on('state', function (data) {
+      io.emit('state', data);
     });
   });
 
