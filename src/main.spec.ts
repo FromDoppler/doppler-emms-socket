@@ -15,7 +15,7 @@ describe("Example Test", function () {
       .get("/")
       .expect((response) => {
         expect(response.status).toEqual(200);
-        expect(response.text).toEqual("Olá, Hola, Hello!");
+        expect(response.text).toEqual("TEST Sockets.io");
       });
   });
 

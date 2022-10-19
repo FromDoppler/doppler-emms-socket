@@ -10,6 +10,8 @@ import { createServer, IncomingMessage, ServerResponse } from "http";
 import { resolve } from "path";
 import { fileURLToPath } from "url";
 import { Config } from "./config.js";
+import { Server } from "socket.io";
+
 
 const nodePath = resolve(process.argv[1]);
 const modulePath = resolve(fileURLToPath(import.meta.url));
@@ -22,7 +24,7 @@ export default function main(port: number = Config.port) {
   ) => {
     response.setHeader("content-type", "text/plain;charset=utf8");
     response.writeHead(200, "OK");
-    response.end("Olá, Hola, Hello!");
+    response.end("TEST Sockets.io");
   };
 
   const server = createServer(requestListener);
@@ -32,6 +34,22 @@ export default function main(port: number = Config.port) {
     // eslint-disable-next-line no-console
     console.log(`Listening on port: ${port}`);
   }
+
+  const io = new Server(server, {
+    cors: { origin: Config.originArrayCors }
+  });
+
+
+  io.on("connection", (socket: any) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+    // receive a message from the server
+    socket.on("state", (args: string) => {
+      io.emit("state", args);
+    });
+  });
 
   return server;
 }
