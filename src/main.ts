@@ -25,6 +25,12 @@ export default function main(port: number = Config.port) {
     response.writeHead(200, "OK");
     const url = request.url;
 
+    if (url === "/" && request.method === "POST") {
+      io.emit("state", "refresh");
+      response.write("emit refresh");
+      response.end();
+    }
+
     if (url === "/" && request.method === "GET") {
       response.write("TEST Sockets.io");
       response.end();
@@ -41,12 +47,6 @@ export default function main(port: number = Config.port) {
 
   const io = new Server(server, {
     cors: { origin: Config.originArrayCors },
-  });
-
-  io.on("connection", function (socket) {
-    socket.on("state", function (data) {
-      io.emit("state", data);
-    });
   });
 
   return server;
