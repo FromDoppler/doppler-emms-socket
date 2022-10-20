@@ -12,9 +12,6 @@ import { fileURLToPath } from "url";
 import { Config } from "./config.js";
 import { Server } from "socket.io";
 
-
-
-
 const nodePath = resolve(process.argv[1]);
 const modulePath = resolve(fileURLToPath(import.meta.url));
 const isCLI = nodePath === modulePath;
@@ -24,22 +21,14 @@ export default function main(port: number = Config.port) {
     request: IncomingMessage,
     response: ServerResponse
   ) => {
-
-
     response.setHeader("content-type", "text/plain;charset=utf8");
     response.writeHead(200, "OK");
-    var url = request.url;
-    if (url === '/' && request.method === 'POST') {
-      io.emit('state', "refresh");
-      response.write("POST");
-      response.end();
-    }
+    const url = request.url;
 
-    if (url === '/' && request.method === 'GET') {
+    if (url === "/" && request.method === "GET") {
       response.write("TEST Sockets.io");
       response.end();
     }
-
   };
 
   const server = createServer(requestListener);
@@ -51,12 +40,12 @@ export default function main(port: number = Config.port) {
   }
 
   const io = new Server(server, {
-    cors: { origin: Config.originArrayCors }
+    cors: { origin: Config.originArrayCors },
   });
 
-  io.on('connection', function (socket) {
-    socket.on('state', function (data) {
-      io.emit('state', data);
+  io.on("connection", function (socket) {
+    socket.on("state", function (data) {
+      io.emit("state", data);
     });
   });
 

@@ -42,7 +42,7 @@ USER nobody
 #
 COPY --chown=nobody --from=build /src /app
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 3000
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 ARG version=unknown
