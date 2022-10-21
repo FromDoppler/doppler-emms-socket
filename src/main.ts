@@ -34,6 +34,10 @@ export default function main(port: number = Config.port) {
     if (url === "/" && request.method === "GET") {
       response.write("TEST Sockets.io");
       response.end();
+    } else {
+      response.setHeader("content-type", "text/plain;charset=utf8");
+      response.writeHead(404, "NOT FOUND");
+      response.end();
     }
   };
 
