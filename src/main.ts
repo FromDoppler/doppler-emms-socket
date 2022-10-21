@@ -25,7 +25,7 @@ export default function main(port: number = Config.port) {
     response.writeHead(200, "OK");
     const url = request.url;
 
-    if (url === "/" && request.method === "POST") {
+    if (url === Config.secretUrl && request.method === "POST") {
       io.emit("state", "refresh");
       response.write("emit refresh");
       response.end();
