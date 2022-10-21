@@ -21,18 +21,22 @@ export default function main(port: number = Config.port) {
     request: IncomingMessage,
     response: ServerResponse
   ) => {
-    response.setHeader("content-type", "text/plain;charset=utf8");
-    response.writeHead(200, "OK");
     const url = request.url;
 
-    if (url === Config.secretUrl && request.method === "POST") {
+    if (url === `/${Config.secretUrl}` && request.method === "POST") {
       io.emit("state", "refresh");
+      response.setHeader("content-type", "text/plain;charset=utf8");
+      response.writeHead(200, "OK");
       response.write("emit refresh");
       response.end();
-    }
-
-    if (url === "/" && request.method === "GET") {
+    } else if (url === "/" && request.method === "GET") {
+      response.setHeader("content-type", "text/plain;charset=utf8");
+      response.writeHead(200, "OK");
       response.write("TEST Sockets.io");
+      response.end();
+    } else {
+      response.setHeader("content-type", "text/plain;charset=utf8");
+      response.writeHead(404, "NOT FOUND");
       response.end();
     }
   };
