@@ -6,7 +6,7 @@ RUN shellcheck -e SC1091,SC1090 ./*.sh
 FROM node:16.18.0 AS restore
 WORKDIR /src
 COPY package.json yarn.lock ./
-RUN yarn
+RUN yarn --frozen-lockfile
 COPY . .
 
 FROM restore AS verify-format
@@ -24,24 +24,14 @@ RUN yarn test:ci
 FROM restore AS build
 WORKDIR /src
 COPY . .
-RUN yarn build
-
-# FROM node:16.18.0 AS production-restore
-# WORKDIR /src
-# COPY package.json yarn.lock ./
-# RUN yarn --production --ignore-scripts
+RUN yarn build && npm prune --production
 
 FROM gcr.io/distroless/nodejs:16 as final
 USER nobody
-# Potential optimization
-# COPY --chown=nobody --from=production-restore /src/node_modules /app/node_modules
-# COPY --chown=nobody --from=build /src/dist /app/dist
-#
-# COPY --chown=nobody --from=build /src/dist /src/node_modules /app
-# sha256:c1a4dc435233a3222823df518097243c89344dca8d051eff37a31e9b96625113
-#
-COPY --chown=nobody --from=build /src /app
 WORKDIR /app
+COPY --chown=nobody --from=build /src/package.json .
+COPY --chown=nobody --from=build /src/dist ./dist
+COPY --chown=nobody --from=build /src/node_modules ./node_modules
 EXPOSE 3000
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
