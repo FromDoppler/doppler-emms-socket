@@ -25,7 +25,7 @@
     "fix-format": "yarn prettier-fix && yarn eclint-fix"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "^17.0.0",
     "socket.io": "^4.5.3",
     "tslib": "^2.3.1"
   },
