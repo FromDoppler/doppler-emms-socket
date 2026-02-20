@@ -5494,10 +5494,10 @@ node-releases@^2.0.6:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.6.tgz#8a7088c63a55e493845683ebf3c828d8c51c5503"
   integrity sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==
 
-nodemon@3.1.12:
-  version "3.1.12"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-3.1.12.tgz#2367acd0533ce6b940bc33e404bda65f3b016975"
-  integrity sha512-ubbKNjz0Xvv49+5VWiqK2N+1VkoWdWi4xfpyuVbdT4QcdpGlN6Nx/OtxBCDHW8aUelaV6QHDbOjGca9HGnCiCw==
+nodemon@3.1.13:
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-3.1.13.tgz#06e4861d8f8a8033c9f607ae3645d3c02ca1c061"
+  integrity sha512-nPN6L7A9cTA3BnJ3zZIibH5FiDh3GbmibeS17bl5YEU1IRO2mcfvR0ZJXH3ndoeKItjUcaX81FSKc/Kq/IiG6g==
   dependencies:
     chokidar "^3.5.2"
     debug "^4"
